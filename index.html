@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Hub - My Picks</title>
+    <style>
+        :root {
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --primary-text: #1a1a1a;
+            --secondary-text: #666;
+            --rocket-blue: #007aff;
+            --accent-color: #ff3b30;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-color); font-family: -apple-system, system-ui, sans-serif; line-height: 1.5; color: var(--primary-text); }
+
+        /* 1. 상단 전광판 공지사항 */
+        .scrolling-ticker {
+            background-color: #333;
+            color: #fff;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 8px 0;
+            font-size: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .ticker-content {
+            display: inline-block;
+            padding-left: 100%;
+            animation: ticker 20s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
+/* 본문 영역 여백 조정 (고정된 헤더만큼 띄워주기 위함) */
+.wrapper { 
+    width: 100%; 
+    max-width: 500px; 
+    margin: 0 auto; 
+    padding: 10px 16px 20px 16px; /* 위쪽 패딩 조절 */
+}
+
+        header { text-align: center; margin-bottom: 20px; }
+        header h1 { font-size: 1.2rem; font-weight: 800; color: #333; margin-bottom: 15px; }
+
+        /* 2. 검색창 스타일 */
+        .search-container {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+#search-input {
+    width: 85%;
+    margin: 0 auto;        /* 부모 박스 안에서 검색창 자체를 중앙으로 */
+    display: block;        /* margin: 0 auto가 작동하도록 설정 */
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 2px solid #ddd;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+    background: white;
+    
+    /* 텍스트 중앙 정렬 핵심 코드 */
+    text-align: center;    
+}
+
+/* 입력 시 커서(캐럿) 색상이나 위치가 어색할 경우를 대비 */
+#search-input::placeholder {
+    text-align: center;
+}
+
+        #search-input:focus {
+            border-color: var(--rocket-blue);
+        }
+
+        /* 상품 리스트 및 카드 스타일 */
+        #product-list { display: flex; flex-direction: column; gap: 12px; }
+
+        .card {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: 12px;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            overflow: hidden;
+            height: 80px;
+            transition: transform 0.1s;
+        }
+
+        .card:active { transform: scale(0.98); background: #fafafa; }
+
+        .img-area {
+            position: relative;
+            width: 80px;
+            min-width: 80px;
+            height: 80px;
+            background: #eee;
+        }
+
+        .img-area img { width: 100%; height: 100%; object-fit: cover; }
+        
+
+        .no-badge {
+            position: absolute; top: 0; left: 0;
+            background: rgba(0,0,0,0.7); color: #fff;
+            font-size: 10px; padding: 2px 6px; border-bottom-right-radius: 8px;
+            font-weight: 600;
+        }
+
+        .info-area {
+            flex: 1;
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+.fixed-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%; /* 전체 너비 사용 */
+    background-color: var(--bg-color);
+}
+/* SNS 바로가기 스타일 */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px 0;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+}
+.social-links a {
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #333;
+}
+/* SNS 아이콘 색상 (선택사항) */
+.link-yt { color: #FF0000 !important; }
+.link-ig { color: #E1306C !important; }
+.link-nb { color: #03C75A !important; }
+/* 검색창 고정 배경 처리 */
+.search-fixed-wrapper {
+    background: var(--bg-color);
+    padding: 10px 16px;
+}
+
+        .rocket-tag {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: var(--rocket-blue);
+            font-weight: 700;
+        }
+        /* 비즈니스 문의 플로팅 버튼 */
+.floating-inquiry {
+    position: fixed;
+    bottom: 25px; /* 하단 여백 */
+    right: 20px;  /* 우측 여백 */
+    background-color: #ffffff;
+    border: 1px solid #eee;
+    border-radius: 15px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    z-index: 999;
+    text-decoration: none;
+    transition: transform 0.2s;
+}
+
+.floating-inquiry:active {
+    transform: scale(0.95);
+}
+
+.floating-inquiry span {
+    font-size: 11px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.floating-inquiry img {
+    width: 70px;   /* 이미지 크기 조절 */
+    height: 70px;
+    object-fit: contain;
+}
+/* 1. 전광판 배경 꽉 차게 */
+.scrolling-ticker {
+    background-color: #333;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* 2. SNS 링크 바 배경 꽉 차게 */
+.social-links {
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+}
+
+/* 3. 검색창 배경 꽉 차게 */
+.search-fixed-wrapper {
+    background: var(--bg-color);
+    padding: 10px 0; /* 좌우 패딩은 아래 inner-content에서 조절 */
+    width: 100%;
+}
+
+/* 검색창 입력 박스 좌우 간격 유지 */
+.search-inner {
+    padding: 0 16px;
+}
+.inner-content {
+    max-width: 500px; /* 실제 모바일 사이즈처럼 보일 너비 */
+    margin: 0 auto;   /* 중앙 정렬 */
+    width: 100%;
+}
+
+        footer { text-align: center; padding: 40px 0; font-size: 12px; color: #bbb; }
+        
+        /* 검색 결과 없음 안내 */
+        .no-result {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+<div class="fixed-header">
+    <div class="scrolling-ticker">
+        <div class="ticker-content">
+            📢 쿠팡 파트너스 활동의 일환으로 소정의 수수료를 제공받을 수 있습니다. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 🚀 로켓배송 상품은 당일 배송이 가능합니다!
+        </div>
+    </div>
+
+    <div class="social-links">
+        <a href="https://youtube.com/@유튜브아이디" target="_blank" class="link-yt">🔴 YouTube</a>
+        <a href="https://instagram.com/인스타아이디" target="_blank" class="link-ig">📸 Instagram</a>
+        <a href="https://blog.naver.com/블로그아이디" target="_blank" class="link-nb">💚 Blog</a>
+    </div>
+
+    <div class="search-fixed-wrapper">
+        <div class="search-container" style="margin-bottom: 0;">
+            <input type="text" id="search-input" placeholder="찾으시는 상품 번호나 제품명 검색!" autocomplete="off">
+        </div>
+    </div>
+</div>
+<div class="wrapper">
+    <header>
+        <h1 style="margin-top:10px;">🐹 햄햄리빙 꿀템추천 ❤️</h1>
+    </header>
+
+    <div id="product-list">
+        </div>
+
+
+<a href="mailto:red73071@naver.com" class="floating-inquiry">
+    <span style="font-size:11px; font-weight:700; color:#333; margin-bottom:5px;">비즈니스 문의</span>
+    <img src="https://item.kakaocdn.net/do/47112f1ae6f87f4323cb73f65a8c5424f604e7b0e6900f9ac53a43965300eb9a" alt="아이콘" onerror="this.src='https://cdn-icons-png.flaticon.com/512/9068/9068642.png'">
+</a>
+    <footer>
+        &copy; gosestudio . All rights reserved.
+    </footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+    const listContainer = document.getElementById('product-list');
+    const searchInput = document.getElementById('search-input');
+
+    /**
+     * 핵심 렌더링 함수
+     * @param {Array} items - 표시할 상품 배열
+     */
+    function render(items) {
+        if (!items || items.length === 0) {
+            listContainer.innerHTML = '<div class="no-result">검색 결과가 없습니다.</div>';
+            return;
+        }
+
+        listContainer.innerHTML = items.map(item => `
+            <a href="${item.link}" target="_blank" class="card">
+                <div class="img-area">
+                    <span class="no-badge">no.${item.id}</span>
+                    <img src="${item.imageUrl}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/150?text=No+Image'" loading="lazy">
+                </div>
+                <div class="info-area">
+                    <div class="title">${item.title}</div>
+                    ${item.isRocket ? `
+                        <div class="rocket-tag">
+                            🚀 로켓배송
+                        </div>
+                    ` : ''}
+                </div>
+            </a>
+        `).join('');
+    }
+
+    /**
+     * 실시간 검색 필터링 로직
+     */
+    searchInput.addEventListener('input', (e) => {
+        const keyword = e.target.value.toLowerCase().trim();
+        
+        const filtered = productData.filter(item => {
+            return item.id.toString().includes(keyword) || 
+                   item.title.toLowerCase().includes(keyword);
+        });
+
+        render(filtered);
+    });
+
+    // 초기 실행
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof productData !== 'undefined') {
+            render(productData);
+        } else {
+            listContainer.innerHTML = "<p style='text-align:center;'>데이터를 불러올 수 없습니다.</p>";
+        }
+    });
+</script>
+
+</body>
+</html>
