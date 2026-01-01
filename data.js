@@ -1,5 +1,11 @@
 const productData = [
-    
+    {
+        "id": "003",
+        "title": "귀염뽀작 꼬까 뽀글 개구리 키링",
+        "imageUrl": "https://thumbnail.coupangcdn.com/thumbnails/remote/492x492ex/image/retail/images/19798033249900-ba7e0a0f-fd33-4dae-a7a5-5ad4febf2f45.png",
+        "link": "https://link.coupang.com/a/djVYzX",
+        "isRocket": true
+    },
     {
         "id": "002",
         "title": "쿠쿠 - 스테인리스 아이편한 초음파 가습기",
@@ -16,4 +22,5 @@ const productData = [
     }
 
     
+
 ];
